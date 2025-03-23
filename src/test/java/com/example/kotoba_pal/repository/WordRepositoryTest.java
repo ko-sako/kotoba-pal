@@ -13,11 +13,11 @@ public class WordRepositoryTest {
     private WordRepository wordRepository;
 
     @Test
-    void shouldSaveAndRetriveWord() {
+    void shouldSaveAndRetrieveWord() {
         Word word = new Word(null, "Hello!");
         wordRepository.save(word);
 
-        Word retrived = wordRepository.findAll().get(0);
-        assertThat(retrived.getCount()).isEqualTo("Hello!");
+        Word retrieved = wordRepository.findAll().get(0);
+        assertThat(retrieved.getCount()).isEqualTo("Hello!");
     }
 }
