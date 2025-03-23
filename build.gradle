@@ -35,6 +35,13 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.xerial:sqlite-jdbc:3.41.2.2'
 
+	// https://mvnrepository.com/artifact/com.github.gwenn/sqlite-dialect
+	//implementation("com.github.gwenn:sqlite-dialect:0.1.4")
+	//implementation 'com.github.gwenn.sqlite-dialect:0.1.2'
+	//implementation 'com.github.gwenn:hibernate-dialect-sqlite:1.0'
+
+	// https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
+	implementation("org.hibernate.orm:hibernate-community-dialects:6.6.11.Final")
 }
 
 tasks.named('test') {
