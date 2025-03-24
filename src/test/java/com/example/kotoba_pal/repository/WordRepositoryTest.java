@@ -1,6 +1,7 @@
 package com.example.kotoba_pal.repository;
 
 
+import com.example.kotoba_pal.model.Word;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
