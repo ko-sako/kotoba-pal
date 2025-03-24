@@ -1,6 +1,15 @@
 // api.test.ts
 import { learnWord } from './api';
 
+beforeEach(() => {
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: true, // ✅ ここを `true` にして、サーバーが成功したときの状態を模倣
+            json: () => Promise.resolve({ success: true }), // ✅ 成功レスポンスを返す
+        })
+    ) as jest.Mock;
+});
+
 // mock the fetch
 global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -23,7 +32,7 @@ describe('learnWord API', () => {
             body: JSON.stringify({ content: word }),
         });
 
-        expect(result.success).toBe(true);
+        expect(result).toEqual({ success: true });
     });
 
     it('should handle errors correctly', async () => {
