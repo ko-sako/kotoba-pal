@@ -23,6 +23,16 @@ public class WordController {
         return wordRepository.save(word);
     }
 
+    @GetMapping("/all")
+    public List<Word> allWords() {
+        List<Word> words = wordRepository.findAll();
+        if (words.isEmpty()) {
+            Word tmp_word = new Word(null, "I have not remember any words..");
+            words.add(tmp_word);
+        }
+        return words;
+    }
+
     @GetMapping("/talk")
     public Word talk() {
         List<Word> words = wordRepository.findAll();
