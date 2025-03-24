@@ -19,6 +19,6 @@ public class WordRepositoryTest {
         wordRepository.save(word);
 
         Word retrieved = wordRepository.findAll().get(0);
-        assertThat(retrieved.getCount()).isEqualTo("Hello!");
+        assertThat(retrieved.getContent()).isEqualTo("Hello!");
     }
 }
