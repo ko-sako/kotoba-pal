@@ -15,5 +15,10 @@ export const learnWord = async (word: string) => {
 
 export const getResponse = async () => {
     const response = await fetch("http://localhost:8080/api/talk");
+
+    if (!response.ok) {
+        throw new Error("Failed to get word");
+    }
+
     return response.json();
 };

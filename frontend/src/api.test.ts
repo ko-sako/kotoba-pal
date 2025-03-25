@@ -1,7 +1,9 @@
 // Unit test of frontend response
 import { learnWord } from './api';
 
+
 beforeEach(() => {
+    jest.clearAllMocks();
     global.fetch = jest.fn(() =>
         Promise.resolve({
             ok: true, // Mock the success API response
@@ -31,6 +33,7 @@ describe('learnWord API', () => {
         // mock error response
         global.fetch = jest.fn(() =>
             Promise.resolve({
+                ok: false,
                 json: () => Promise.reject(new Error('Failed to learn word')),
             })
         ) as jest.Mock;
