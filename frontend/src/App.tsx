@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import SpeechRecognition from './components/SpeechRecognition';
+import LearnWord from "./components/LearnWord.tsx";
 
 function App() {
   const [count, setCount] = useState(0)
