@@ -1,21 +1,14 @@
-// api.test.ts
+// Unit test of frontend response
 import { learnWord } from './api';
 
 beforeEach(() => {
     global.fetch = jest.fn(() =>
         Promise.resolve({
-            ok: true, // ✅ ここを `true` にして、サーバーが成功したときの状態を模倣
-            json: () => Promise.resolve({ success: true }), // ✅ 成功レスポンスを返す
+            ok: true, // Mock the success API response
+            json: () => Promise.resolve({ success: true }),
         })
     ) as jest.Mock;
 });
-
-// mock the fetch
-global.fetch = jest.fn(() =>
-    Promise.resolve({
-        json: () => Promise.resolve({ success: true }),
-    })
-) as jest.Mock;
 
 describe('learnWord API', () => {
     it('should send a POST request to learn a word', async () => {
@@ -31,7 +24,6 @@ describe('learnWord API', () => {
             },
             body: JSON.stringify({ content: word }),
         });
-
         expect(result).toEqual({ success: true });
     });
 
