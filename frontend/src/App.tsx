@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import SpeechRecognition from './components/SpeechRecognition';
-import LearnWord from "./components/LearnWord.tsx";
+import Response from "./components/Response.tsx";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,6 +12,7 @@ function App() {
     <>
       <div>
         <SpeechRecognition />
+        <Response />
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
