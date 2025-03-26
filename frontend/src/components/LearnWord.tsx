@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { learnWord } from '../api';
 
-const WordLearning: React.FC = () => {
-    const [recognizedWord, setRecognizedWord] = useState('');
+
+interface LearnWordProps {
+    recognizedWord: string;  // SpeechRecognitionComponent から受け取る
+}
+
+const LearnWord: React.FC<LearnWordProps> = ({ recognizedWord }) => {
 
     const handleLearnWord = async () => {
         if (recognizedWord) {
-            await learnWord(recognizedWord); // call `learnWord` at `api.ts`
-            alert('Word Learned: ' + recognizedWord);
+            await learnWord(recognizedWord); // API 呼び出し
+            alert("Word Learned: " + recognizedWord);
         }
     };
 
@@ -19,4 +23,4 @@ const WordLearning: React.FC = () => {
     );
 };
 
-export default WordLearning;
+export default LearnWord;

@@ -1,4 +1,5 @@
 export const learnWord = async (word: string) => {
+    alert("[API] Word Learned: " + word);
     const response = await fetch("http://localhost:8080/api/learn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
