@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LearnWord from "./LearnWord.tsx";
+import ChatGPTResponse from "./ChatGPTResponse.tsx";
 
 const SpeechRecognitionComponent: React.FC = () => {
     const [text, setText] = useState("");
@@ -17,6 +18,8 @@ const SpeechRecognitionComponent: React.FC = () => {
             <button onClick={startListening}>Start Listening</button>
             <p>Recognized: {text}</p>
             <LearnWord recognizedWord={text}/>
+            <ChatGPTResponse word={text} />
+
         </div>
     );
 };

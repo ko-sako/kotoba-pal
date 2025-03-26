@@ -25,20 +25,23 @@ export const getResponse = async () => {
     return response.json();
 };
 
-export const getChatGPTResponse = async (word: string) => {
-    const response = await fetch('https://api.openai.com/v1/completions', {
-        method: 'POST',
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+if (!apiKey) {
+    throw new Error("Missing OpenAI API Key");
+}
+
+export const getChatGPTResponse = async (prompt: string) => {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-            model: 'text-davinci-003',
-            prompt: `Create a response based on the word: "${word}"`,
-            max_tokens: 100,
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
         }),
     });
 
-    const data = await response.json();
-    return data.choices[0].text.trim();
+    return response.json();
 };
