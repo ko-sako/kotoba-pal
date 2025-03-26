@@ -19,7 +19,6 @@ const SpeechRecognitionComponent: React.FC = () => {
             <p>Recognized: {text}</p>
             <LearnWord recognizedWord={text}/>
             <ChatGPTResponse word={text} />
-
         </div>
     );
 };
