@@ -9,6 +9,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5173")
 public class WordController {
 
     private final WordRepository wordRepository;
