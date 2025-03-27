@@ -30,7 +30,17 @@ if (!apiKey) {
     throw new Error("Missing OpenAI API Key");
 }
 
-export const getChatGPTResponse = async (prompt: string) => {
+export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean) => {
+    const systemPrompt = isFirstMessage
+        ? { role: "system", content: "please always say hohooooo! each conversation" }
+        : null;
+
+    // リクエストボディを構築
+    const messages = [
+        ...(systemPrompt ? [systemPrompt] : []),  // 最初のメッセージにのみシステムプロンプトを追加
+        { role: "user", content: prompt }
+    ];
+
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -39,7 +49,7 @@ export const getChatGPTResponse = async (prompt: string) => {
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
+            messages: messages,
         }),
     });
 
