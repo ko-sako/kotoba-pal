@@ -1,0 +1,1 @@
+{"root":["./vite.config.ts","./src/app.tsx","./src/api.ts","./src/main.tsx","./src/vite-env.d.ts","./src/components/chatgptresponse.tsx","./src/components/learnword.tsx","./src/components/response.tsx","./src/components/speechrecognition.tsx"],"errors":true,"version":"5.7.3"}
