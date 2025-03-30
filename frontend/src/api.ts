@@ -33,7 +33,7 @@ if (!apiKey) {
 export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean,  messages: any[]) => {
     const systemPrompt = isFirstMessage
         ? { role: "system", content: "Let's start the game. You are starting a word-guessing game. Give hints about the word and tell if the guess is correct or not. Please provide this game's instruction and your first hint. If the user gave correct answer, you should say: WELL DONE!!  You are absolutely 100% NOT ALLOWED to do things other than word-guessing game." }
-        : { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game."};
+        : { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game. If the user gave correct answer, you should say: WELL DONE!!"};
 
     // 最初のメッセージにシステムプロンプトを追加
     const updatedMessages = [
