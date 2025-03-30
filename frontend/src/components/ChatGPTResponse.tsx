@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getChatGPTResponse } from '../api';
+import './ChatGPTResponse.css';  // 追加: CSSファイルをインポート
+import Confetti from 'react-confetti';
 
 interface ChatGPTResponseProps {
     word: string;  // receive word from SpeechRecognitionComponent
@@ -14,8 +16,8 @@ const ChatGPTResponse: React.FC<ChatGPTResponseProps> = ({ word }) => {
         gameOver: false
     });
 
-    // 会話履歴を保持
     const [messages, setMessages] = useState<any[]>([]);
+    const [showConfetti, setShowConfetti] = useState(false);  // 正解時にクラッカーを表示するための状態
 
     const fetchResponse = async () => {
         if (gameState.gameOver) {
@@ -30,32 +32,28 @@ const ChatGPTResponse: React.FC<ChatGPTResponseProps> = ({ word }) => {
         }
 
         if (word) {
-            // ユーザーからのメッセージを履歴に追加
             const userMessage = { role: "user", content: word };
             setMessages(prevMessages => [...prevMessages, userMessage]);
 
             const result = await getChatGPTResponse(word, isFirstRequest, messages);
 
-            // ChatGPTからのレスポンスを履歴に追加
             const message = result?.choices?.[0]?.message?.content || "No response";
             setMessages(prevMessages => [...prevMessages, { role: "assistant", content: message }]);
 
-            // ユーザーの発話が正解か不正解か判定
-            if (message.includes("Well done") || message.includes("well done")) {
+            if (message.includes("well done") || (message.includes("well done!!")) || (message.includes("Well done!!")) || (message.includes("Well done"))) {
                 setGameState(prevState => ({
                     ...prevState,
                     gameOver: true,
                     hint: "Correct! Starting next game."
                 }));
+                setShowConfetti(true);  // 正解時にクラッカーを表示
             } else {
-                // 不正解の場合、ヒントを追加
                 setGameState(prevState => ({
                     ...prevState,
                     attempts: prevState.attempts + 1,
                     hint: `Hint: ${message}`,
                 }));
-
-                // 10回間違えた場合
+                //if (!(isFirstRequest)) setShowConfetti(true);  // 正解時にクラッカーを表示
                 if (gameState.attempts >= 10) {
                     setGameState(prevState => ({
                         ...prevState,
@@ -67,22 +65,29 @@ const ChatGPTResponse: React.FC<ChatGPTResponseProps> = ({ word }) => {
 
             setResponse(message);
 
-            // 最初のリクエスト後にisFirstRequestをfalseに変更
             if (isFirstRequest) {
                 setIsFirstRequest(false);
             }
         }
     };
 
+    useEffect(() => {
+        if (showConfetti) {
+            // 3秒後にクラッカーエフェクトを非表示
+            setTimeout(() => setShowConfetti(false), 5000);
+        }
+    }, [showConfetti]);
+
     return (
         <div>
             <button onClick={fetchResponse}>Start Game</button>
             <p>{response || "Waiting for your guess..."}</p>
-            <p>{isFirstRequest ? "isFirstRequest: true" : "isFirstRequest: false"}</p>
-            <p>{gameState.gameOver ? "isGameOver: true" : "isGameOver: false"}</p>
             <p>{gameState.hint}</p>
             <p>{gameState.gameOver ? "Game Over. Click to start a new game." : "Guess the word!"}</p>
             <p>Attempts: {gameState.attempts}</p>
+
+            {/* 正解時にクラッカーエフェクトを表示 */}
+            {showConfetti && <Confetti />}
         </div>
     );
 };
