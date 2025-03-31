@@ -42,13 +42,11 @@ public class WordController {
         return words.get(random.nextInt(words.size()));
     }
 
-
     @Value("${openai.api.key}")
     private String openAiApiKey;
 
-
     @PostMapping("/chat")
-    public ResponseEntity<?> getChatResponse(@RequestBody Map<String, Object> body) {
+    public ResponseEntity<Map<String, Object>> getChatResponse(@RequestBody Map<String, Object> body) {
         try {
             String apiUrl = "https://api.openai.com/v1/chat/completions";
 
@@ -73,11 +71,19 @@ public class WordController {
             );
 
             System.out.println(response.getBody());
-            return response;
+
+            // レスポンスヘッダーを明示的に設定
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+            return new ResponseEntity<>(response.getBody(), responseHeaders, response.getStatusCode());
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", e.getMessage()));
+            // より詳細なエラー情報をログに出力
+            System.err.println("Error calling OpenAI API: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", "OpenAI API call failed: " + e.getMessage()));
         }
     }
+
 }
