@@ -96,10 +96,7 @@ const ChatGPTResponse: React.FC<ChatGPTResponseProps> = ({ word, startListening 
 
     return (
         <div>
-            <p>{response || "Waiting for your guess..."}</p>
-            <p>{gameState.hint}</p>
-            <p>{gameState.gameOver ? "Game Over. Starting a new game..." : "Guess the word!"}</p>
-            <p>Attempts: {gameState.attempts}</p>
+            <p>{response || "Thinking..."}</p>
             {showConfetti && <Confetti />}
         </div>
     );
