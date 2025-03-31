@@ -2,19 +2,12 @@ package com.example.kotoba_pal.controller;
 
 import com.example.kotoba_pal.model.Word;
 import com.example.kotoba_pal.repository.WordRepository;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -79,10 +72,12 @@ public class WordController {
                     Map.class
             );
 
+            System.out.println(response.getBody());
             return response;
+
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 }
