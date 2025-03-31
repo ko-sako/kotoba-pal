@@ -11,9 +11,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")  // ワイルドカードで全てのオリジンを許可
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // 必要なHTTPメソッドを許可
-                .allowedHeaders("*")  // すべてのヘッダーを許可
-                .allowCredentials(true);  // 必要であれば、認証情報を含める設定
+                .allowedOrigins("http://localhost:5173", "https://ko-sako.github.io/kotoba-pal", "https://ko-sako.github.io") // 許可するオリジンを明示的に指定
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }
+
