@@ -18,7 +18,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal", "https://ko-sako.github.io"})
 public class WordController {
 
     private final WordRepository wordRepository;

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://ko-sako.github.io/kotoba-pal",
+  "homepage": "https://github.com/ko-sako/kotoba-pal.git",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
