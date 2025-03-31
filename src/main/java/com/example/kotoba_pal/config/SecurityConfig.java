@@ -1,4 +1,4 @@
-package com.example.kotoba_pal.config;  // ← ルートパッケージ内にあることを確認
+package com.example.kotoba_pal.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,17 +11,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-@Configuration  // ← Spring に認識させる
+@Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors().configurationSource(corsConfigurationSource()) // CORS 設定
-                .and()
-                .csrf().disable() // 必要なら CSRF を無効化
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // すべてのリクエストを許可
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORSを最初に適用
+                .csrf(csrf -> csrf.disable()) // CSRFを無効化
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // 全てのリクエストを許可
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // セッションを使わない
 
         return http.build();
     }
@@ -31,8 +30,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://ko-sako.github.io/kotoba-pal",
-                "https://ko-sako.github.io"
+                "https://ko-sako.github.io",
+                "https://ko-sako.github.io/kotoba-pal"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
