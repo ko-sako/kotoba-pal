@@ -1,4 +1,3 @@
-import viteLogo from '/vite.svg';
 import './App.css';
 import SpeechRecognition from './components/SpeechRecognition';
 
@@ -7,14 +6,11 @@ function App() {
 
     return (
         <>
+            <h1>Word Guess</h1>
             <div>
                 {/* SpeechRecognition に setTranscript を渡す */}
-                <SpeechRecognition />
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
+                <SpeechRecognition/>
             </div>
-            <h1>Vite + React</h1>
         </>
     );
 }

@@ -32,10 +32,10 @@ export const getResponse = async () => {
 // バックエンドでOpenAI APIを処理するため、フロントエンドからは単にチャットのリクエストを送るだけでOK
 export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean, messages: any[]) => {
     const systemPrompt = isFirstMessage
-        // ? { role: "system", content: "Let's start the game. You are starting a word-guessing game. Give hints about the word and tell if the guess is correct or not. Please provide this game's instruction and your first hint. If the user gave correct answer, you should say: WELL DONE!!  You are absolutely 100% NOT ALLOWED to do things other than word-guessing game." }
-        // : { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game. If the user gave correct answer, you should say: WELL DONE!!"};
-        ? { role: "system", content: "please just ONLY say hi. this 2 characters ONLY." }
-        : { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game. If the user gave correct answer, you should say: WELL DONE!!"};
+         ? { role: "system", content: "Let's start the game. You are starting a word-guessing game. Give hints about the word and tell if the guess is correct or not. Please provide this game's instruction and your first hint. If the user gave correct answer, you should say: WELL DONE!!  You are absolutely 100% NOT ALLOWED to do things other than word-guessing game." }
+         : { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game. If the user gave correct answer, you should say: WELL DONE!!"};
+        //? { role: "system", content: "please just ONLY say hi. this 2 characters ONLY." }
+        //: { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game. If the user gave correct answer, you should say: WELL DONE!!"};
 
 
     // メッセージを更新（最初のメッセージと過去のメッセージを含む）
@@ -45,7 +45,7 @@ export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean
         { role: "user", content: prompt }
     ];
 
-    alert(`${apiUrl}/chat`);
+    //alert(`${apiUrl}/chat`);
 
     const response = await fetch(`${apiUrl}/chat`, { // バックエンドを経由してOpenAIにリクエスト
         method: "POST",
@@ -71,7 +71,7 @@ export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean
     console.log("Response received:", responseBody);  // コンソールにレスポンスを表示
 
 // アラートにレスポンス内容を表示
-    alert("Response: " + JSON.stringify(responseBody, null, 2));
+   // alert("Response: " + JSON.stringify(responseBody, null, 2));
 
     return responseBody;
 };

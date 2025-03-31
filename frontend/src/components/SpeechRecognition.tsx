@@ -24,7 +24,8 @@ const SpeechRecognitionComponent: React.FC = () => {
         const recognition =
             new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.continuous = false; // 1回の認識ごとに終了
-        recognition.interimResults = false; // 確定した結果のみ取得
+        recognition.interimResults = true; // 確定した結果のみ取得
+        recognition.lang = 'en-UK'
 
         recognition.onstart = () => {
             setIsListening(true);
@@ -32,9 +33,23 @@ const SpeechRecognitionComponent: React.FC = () => {
         };
 
         recognition.onresult = (event: SpeechRecognitionEvent) => {
-            const transcript = event.results[0][0].transcript;
-            setText(transcript);
-            setRecognizedText(transcript); // ChatGPT に送るテキストを更新
+            let interimTranscript = "";
+            let finalTranscript = "";
+
+            for (let i = 0; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript;
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+
+            setText(interimTranscript || finalTranscript); // 途中経過もリアルタイム表示
+
+            if (finalTranscript) {
+                setRecognizedText(finalTranscript); // 確定した結果を送信
+            }
         };
 
         recognition.onerror = () => {
@@ -59,7 +74,7 @@ const SpeechRecognitionComponent: React.FC = () => {
         const elapsedTime = currentTime - lastStoppedRef.current;
 
         // 停止から10秒経過した場合のみ再開
-        if (elapsedTime >= 5000 && !isListening) {
+        if (elapsedTime >= 4000 && !isListening) {
             startListening();
         }
     };
