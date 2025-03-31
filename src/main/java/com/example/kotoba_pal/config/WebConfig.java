@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         // 特定のエンドポイントに対してCORSを許可
         registry.addMapping("/api/**")
-                .allowedOrigins("https://ko-sako.github.io") // ここに許可するオリジンを指定
+                .allowedOrigins("https://ko-sako.github.io/kotoba-pal") // ここに許可するオリジンを指定
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);

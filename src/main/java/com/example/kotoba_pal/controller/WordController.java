@@ -18,7 +18,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal", "https://ko-sako.github.io"})
+@CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal"})
 public class WordController {
 
     private final WordRepository wordRepository;
@@ -56,7 +56,7 @@ public class WordController {
 
 
     @PostMapping("/chat")
-    @CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal", "https://ko-sako.github.io"})
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal"})
     public ResponseEntity<?> getChatResponse(@RequestBody Map<String, Object> body) {
         try {
             String apiUrl = "https://api.openai.com/v1/chat/completions";
