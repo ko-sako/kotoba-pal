@@ -54,7 +54,9 @@ public class WordController {
     @Value("${openai.api.key}")
     private String openAiApiKey;
 
+
     @PostMapping("/chat")
+    @CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal", "https://ko-sako.github.io"})
     public ResponseEntity<?> getChatResponse(@RequestBody Map<String, Object> body) {
         String apiUrl = "https://api.openai.com/v1/chat/completions";
 
