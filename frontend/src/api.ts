@@ -45,7 +45,7 @@ export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean
     const response = await fetch(`${apiUrl}/chat`, { // バックエンドを経由してOpenAIにリクエスト
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             messages: updatedMessages,
