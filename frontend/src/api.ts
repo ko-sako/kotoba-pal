@@ -50,7 +50,9 @@ export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean
         body: JSON.stringify({
             messages: updatedMessages,
         }),
+        mode: "cors",  // CORSモード
     });
+
 
     if (!response.ok) {
         const errorDetails = await response.text();
@@ -58,5 +60,12 @@ export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    return response.json();
+    // レスポンスの内容をアラートで表示
+    const responseBody = await response.json();
+    console.log("Response received:", responseBody);  // コンソールにレスポンスを表示
+
+// アラートにレスポンス内容を表示
+    alert("Response: " + JSON.stringify(responseBody, null, 2));
+
+    return responseBody;
 };
