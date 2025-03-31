@@ -2,14 +2,23 @@ package com.example.kotoba_pal.controller;
 
 import com.example.kotoba_pal.model.Word;
 import com.example.kotoba_pal.repository.WordRepository;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal"})
 public class WordController {
 
     private final WordRepository wordRepository;
@@ -39,5 +48,36 @@ public class WordController {
         List<Word> words = wordRepository.findAll();
         if (words.isEmpty()) return new Word(null, "I have not remember any words..");
         return words.get(random.nextInt(words.size()));
+    }
+
+
+    @Value("${openai.api.key}")
+    private String openAiApiKey;
+
+    @PostMapping("/chat")
+    public ResponseEntity<?> getChatResponse(@RequestBody Map<String, Object> body) {
+        String apiUrl = "https://api.openai.com/v1/chat/completions";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + openAiApiKey);
+
+        // OpenAI API用のリクエストボディを作成
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", "gpt-3.5-turbo");
+        requestBody.put("messages", body.get("messages"));
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        // OpenAI APIにリクエストを送る
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> response = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.POST,
+                request,
+                Map.class
+        );
+
+        return response;
     }
 }
