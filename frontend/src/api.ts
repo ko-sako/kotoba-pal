@@ -52,5 +52,11 @@ export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean
         }),
     });
 
+    if (!response.ok) {
+        const errorDetails = await response.text();
+        console.error("Error details:", errorDetails);
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     return response.json();
 };

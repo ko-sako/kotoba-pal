@@ -17,7 +17,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORSを最初に適用
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS設定
                 .csrf(csrf -> csrf.disable()) // CSRFを無効化
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // 全てのリクエストを許可
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // セッションを使わない
@@ -28,17 +28,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // こちらで必要なオリジンを設定
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-//                "https://ko-sako.github.io",
-                "https://ko-sako.github.io/kotoba-pal"
+                "https://ko-sako.github.io"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); // 認証情報を含める
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);  // 全エンドポイントに適用
         return source;
     }
 }
