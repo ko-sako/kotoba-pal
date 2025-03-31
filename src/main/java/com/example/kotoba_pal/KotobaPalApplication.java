@@ -7,7 +7,7 @@ import com.example.kotoba_pal.config.WebConfig;  // WebConfigクラスをイン�
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import({WebConfig.class, SecurityConfig.class}) // CORSとセキュリティ設定を明示的にインポート
+@Import({SecurityConfig.class}) // CORSとセキュリティ設定を明示的にインポート
 public class KotobaPalApplication {
 
 	public static void main(String[] args) {
