@@ -58,28 +58,33 @@ public class WordController {
     @PostMapping("/chat")
     @CrossOrigin(origins = {"http://localhost:5173", "https://ko-sako.github.io/kotoba-pal", "https://ko-sako.github.io"})
     public ResponseEntity<?> getChatResponse(@RequestBody Map<String, Object> body) {
-        String apiUrl = "https://api.openai.com/v1/chat/completions";
+        try {
+            String apiUrl = "https://api.openai.com/v1/chat/completions";
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + openAiApiKey);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + openAiApiKey);
 
-        // OpenAI API用のリクエストボディを作成
-        Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", "gpt-3.5-turbo");
-        requestBody.put("messages", body.get("messages"));
+            // OpenAI API用のリクエストボディを作成
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("messages", body.get("messages"));
 
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
-        // OpenAI APIにリクエストを送る
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.exchange(
-                apiUrl,
-                HttpMethod.POST,
-                request,
-                Map.class
-        );
+            // OpenAI APIにリクエストを送る
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    apiUrl,
+                    HttpMethod.POST,
+                    request,
+                    Map.class
+            );
 
-        return response;
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error occurred: " + e.getMessage());
+        }
     }
 }
