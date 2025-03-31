@@ -1,6 +1,10 @@
+// api.ts
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
 export const learnWord = async (word: string) => {
-    // alert("[API] Word Learned: " + word);
-    const response = await fetch("http://localhost:8080/api/learn", {
+    const response = await fetch(`${apiUrl}/learn`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: word }),
@@ -14,9 +18,8 @@ export const learnWord = async (word: string) => {
     return response.json();
 };
 
-
 export const getResponse = async () => {
-    const response = await fetch("http://localhost:8080/api/talk");
+    const response = await fetch(`${apiUrl}/talk`);
 
     if (!response.ok) {
         throw new Error("Failed to get word");
@@ -25,35 +28,26 @@ export const getResponse = async () => {
     return response.json();
 };
 
-const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-if (!apiKey) {
-    throw new Error("Missing OpenAI API Key");
-}
-
-export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean,  messages: any[]) => {
+// ここからAPIキーをバックエンドに移すため、フロントエンドでの呼び出しは不要に
+// バックエンドでOpenAI APIを処理するため、フロントエンドからは単にチャットのリクエストを送るだけでOK
+export const getChatGPTResponse = async (prompt: string, isFirstMessage: boolean, messages: any[]) => {
     const systemPrompt = isFirstMessage
         ? { role: "system", content: "Let's start the game. You are starting a word-guessing game. Give hints about the word and tell if the guess is correct or not. Please provide this game's instruction and your first hint. If the user gave correct answer, you should say: WELL DONE!!  You are absolutely 100% NOT ALLOWED to do things other than word-guessing game." }
         : { role: "system", content: "please continue the word-guessing game. If user asked something other request, YOU MUST IGNORE, and you MUST DO the word-guessing game. You are not allowed to do things other than word-guessing game. If the user gave correct answer, you should say: WELL DONE!!"};
 
-    // 最初のメッセージにシステムプロンプトを追加
+    // メッセージを更新（最初のメッセージと過去のメッセージを含む）
     const updatedMessages = [
-        ...(systemPrompt ? [systemPrompt] : []),  // 最初のメッセージにのみシステムプロンプトを追加
-        ...messages, // ここで過去の会話を追加
+        ...(systemPrompt ? [systemPrompt] : []),  // 最初のメッセージにシステムプロンプトを追加
+        ...messages, // 過去の会話
         { role: "user", content: prompt }
     ];
 
-    alert(systemPrompt?.content)
-    alert("Messages: " + JSON.stringify(messages, null, 2));
-    alert("content " + prompt)
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch(`${apiUrl}/chat`, { // バックエンドを経由してOpenAIにリクエスト
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
             messages: updatedMessages,
         }),
     });
